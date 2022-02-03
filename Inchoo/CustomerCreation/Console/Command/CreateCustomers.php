@@ -34,6 +34,7 @@ parent::__construct();
 public function configure(): void
 {
     $this->setName('create:customers');
+     $this->addArgument('import_path', InputArgument::REQUIRED, '/var/www/html/project-community-edition/pub/media/fixtures');
     $this->addOption(  'profile',
     null,
            InputOption::VALUE_REQUIRED,
@@ -47,8 +48,8 @@ public function execute(InputInterface $input, OutputInterface $output): ?int
       $this->state->setAreaCode(Area::AREA_GLOBAL);
  
       $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-      $fixture = $mediaDir->getAbsolutePath() . 'fixtures/sample.csv';
-      
+      //$fixture = $mediaDir->getAbsolutePath() . 'fixtures/sample.csv';
+      $fixture = $input-> getArgument('import_path');
       $this->customer->install($fixture, $output);
  
       return Cli::RETURN_SUCCESS;
